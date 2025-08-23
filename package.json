@@ -1,0 +1,30 @@
+{
+  "name": "conexao-ativa",
+  "version": "1.0.0",
+  "description": "Plataforma para conectar pessoas através de atividades físicas",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:api": "npm run dev --workspace=services/api",
+    "dev:mobile": "npm run dev --workspace=apps/mobile",
+    "build:api": "npm run build --workspace=services/api",
+    "build:mobile": "npm run build --workspace=apps/mobile",
+    "db:migrate": "npm run db:migrate --workspace=services/api",
+    "db:seed": "npm run db:seed --workspace=services/api",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}
+

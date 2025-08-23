@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const shared_1 = require("@conexao-ativa/shared");
+const validation_1 = require("../middleware/validation");
+const auth_1 = require("../middleware/auth");
+const placesController_1 = require("../controllers/placesController");
+const router = (0, express_1.Router)();
+router.get('/', placesController_1.getPlaces);
+router.post('/', auth_1.authenticateToken, (0, validation_1.validateBody)(shared_1.CreatePlaceSchema), placesController_1.createPlace);
+exports.default = router;

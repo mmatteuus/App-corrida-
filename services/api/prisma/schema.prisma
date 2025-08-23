@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  neighborhood String?
+  reputation   Int       @default(0)
+  createdAt    DateTime  @default(now())
+  
+  events       Event[]   @relation("UserEvents")
+  participants EventParticipant[]
+  strava       StravaAccount?
+  
+  @@map("users")
+}
+
+model Place {
+  id       String    @id @default(cuid())
+  name     String
+  type     String    // COURT, FIELD, TRACK, GYM, OTHER
+  lat      Float
+  lng      Float
+  address  String?
+  isPublic Boolean   @default(true)
+  
+  events   Event[]
+  
+  @@map("places")
+}
+
+model Event {
+  id         String      @id @default(cuid())
+  modality   String
+  placeId    String
+  place      Place       @relation(fields: [placeId], references: [id])
+  ownerId    String
+  owner      User        @relation("UserEvents", fields: [ownerId], references: [id])
+  startsAt   DateTime
+  totalSpots Int
+  status     String      @default("OPEN") // OPEN, FULL, DONE, CANCELLED
+  createdAt  DateTime    @default(now())
+  
+  participants EventParticipant[]
+  
+  @@map("events")
+}
+
+model EventParticipant {
+  eventId  String
+  userId   String
+  joinedAt DateTime @default(now())
+  
+  event    Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@id([eventId, userId])
+  @@map("event_participants")
+}
+
+model StravaAccount {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  athleteId    Int
+  username     String?
+  accessToken  String
+  refreshToken String
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  @@map("strava_accounts")
+}
+

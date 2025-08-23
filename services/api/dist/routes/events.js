@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const shared_1 = require("@conexao-ativa/shared");
+const validation_1 = require("../middleware/validation");
+const auth_1 = require("../middleware/auth");
+const eventsController_1 = require("../controllers/eventsController");
+const router = (0, express_1.Router)();
+router.get('/', eventsController_1.getEvents);
+router.get('/:id', eventsController_1.getEventById);
+router.post('/', auth_1.authenticateToken, (0, validation_1.validateBody)(shared_1.CreateEventSchema), eventsController_1.createEvent);
+router.post('/:id/join', auth_1.authenticateToken, eventsController_1.joinEvent);
+exports.default = router;
