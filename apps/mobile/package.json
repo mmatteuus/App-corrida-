@@ -9,6 +9,7 @@
     "web": "expo start --web",
     "dev": "expo start --dev-client",
     "build": "expo build",
+    "test": "echo \"No tests specified\" && exit 0",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
