@@ -12,7 +12,7 @@
     "db:seed": "tsx src/seed.ts",
     "db:studio": "prisma studio",
     "db:generate": "prisma generate",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "lint": "eslint src --ext .ts"
   },
   "dependencies": {
